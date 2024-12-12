@@ -1,0 +1,8 @@
+.idea/
+.run/
+.vs/
+.vscode/settings.json
+_ReSharper.Caches/
+node_modules/
+
+/bin
