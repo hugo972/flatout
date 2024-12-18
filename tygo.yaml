@@ -1,0 +1,3 @@
+packages:
+  - path: "flatout/internal/data"
+    output_path: "console-app/src/common/types/contract.generated.ts"

@@ -1,9 +1,7 @@
 import _ from "lodash";
 import {useSuspenseQuery} from "@tanstack/react-query";
-
-interface Track {
-    name: string;
-}
+import {Stack, Typography} from "@mui/material";
+import {Track} from "./common";
 
 export function Main() {
     const {data: tracks} =
@@ -17,12 +15,19 @@ export function Main() {
         })
 
     return (
-            <div>
-                {_.map(
-                    tracks,
-                    track =>
-                        <p key={track.name}>
+        <Stack>
+            {_.map(
+                tracks,
+                track =>
+                    <Stack key={track.name}>
+                        <Typography>
                             {track.name}
-                        </p>)}
-            </div>);
+                        </Typography>
+                        <img
+                            alt={track.name}
+                            height={80}
+                            src={`/api/image/${track.id}`}
+                            width={80}/>
+                    </Stack>)}
+        </Stack>);
 }

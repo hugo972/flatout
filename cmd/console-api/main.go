@@ -1,30 +1,16 @@
 package main
 
 import (
-	"github.com/gofiber/fiber/v2"
-	"log"
+	"flatout/internal/api"
+	"flatout/internal/database"
+	"go.uber.org/fx"
 )
 
-type Track struct {
-	Name string `json:"name"`
-}
-
-var tracks = []*Track{
-	{Name: "Arad Racing Track"},
-	{Name: "Motorcity"},
-	{Name: "Pezael"},
-}
-
 func main() {
-	app := fiber.New()
-
-	app.Static("/", "./console-app")
-
-	app.Get(
-		"/api/getTracks",
-		func(c *fiber.Ctx) error {
-			return c.JSON(tracks)
-		})
-
-	log.Fatal(app.Listen(":3000"))
+	fx.
+		New(
+			fx.Provide(database.NewDatabaseProvider),
+			fx.Provide(api.NewServer),
+			fx.Invoke(func(_ *api.Server) {})).
+		Run()
 }
