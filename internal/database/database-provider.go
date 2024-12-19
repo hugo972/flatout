@@ -1,12 +1,15 @@
 package database
 
-type DatabaseProvider struct {
+type IDatabaseProvider interface {
+	GetMongoDatabase() *MongoDatabase
 }
 
-func NewDatabaseProvider() *DatabaseProvider {
-	return &DatabaseProvider{}
+type Provider struct{}
+
+func NewDatabaseProvider() Provider {
+	return Provider{}
 }
 
-func (d *DatabaseProvider) GetMongoDatabase() *MongoDatabase {
+func (d Provider) GetMongoDatabase() *MongoDatabase {
 	return NewMongoDatabase()
 }

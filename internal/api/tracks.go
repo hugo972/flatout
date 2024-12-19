@@ -6,11 +6,11 @@ import (
 
 func (m *Server) ConfigureTracks() {
 	m.fiberApp.Get(
-		"/api/getTracks",
-		m.HandleGetTracks)
+		"/api/tracks/getTracks",
+		m.handleGetTracks)
 }
 
-func (m *Server) HandleGetTracks(c *fiber.Ctx) error {
+func (m *Server) handleGetTracks(c *fiber.Ctx) error {
 	mongoDatabase := m.databaseProvider.GetMongoDatabase()
 
 	tracks, err := mongoDatabase.Tracks.List()

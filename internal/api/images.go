@@ -6,11 +6,11 @@ import (
 
 func (m *Server) ConfigureImages() {
 	m.fiberApp.Get(
-		"/api/image/:imageId",
-		m.HandleGetImage)
+		"/api/images/:imageId",
+		m.handleGetImage)
 }
 
-func (m *Server) HandleGetImage(c *fiber.Ctx) error {
+func (m *Server) handleGetImage(c *fiber.Ctx) error {
 	mongoDatabase := m.databaseProvider.GetMongoDatabase()
 
 	imageId := c.Params("imageId")

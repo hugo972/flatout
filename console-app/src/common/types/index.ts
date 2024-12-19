@@ -1,1 +1,1 @@
-export * from "./contract.generated"
+export * as Types from "./contract.generated";

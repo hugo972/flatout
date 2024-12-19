@@ -9,9 +9,14 @@ import (
 )
 
 type MongoDatabase struct {
-	database *mongo.Database
-	Images   *MongoCollection[data.Image]
-	Tracks   *MongoCollection[data.Track]
+	database     *mongo.Database
+	Cars         *MongoCollection[data.Car]
+	Drivers      *MongoCollection[data.Driver]
+	Events       *MongoCollection[data.Event]
+	EventResults *MongoCollection[data.EventResult]
+	Images       *MongoCollection[data.Image]
+	Tracks       *MongoCollection[data.Track]
+	TrackLayouts *MongoCollection[data.TrackLayout]
 }
 
 type MongoCollection[TDocument interface{}] struct {
@@ -26,9 +31,14 @@ func NewMongoDatabase() *MongoDatabase {
 
 	database := client.Database("flatout")
 	return &MongoDatabase{
-		database: database,
-		Images:   &MongoCollection[data.Image]{collection: database.Collection("Images")},
-		Tracks:   &MongoCollection[data.Track]{collection: database.Collection("Tracks")},
+		database:     database,
+		Cars:         &MongoCollection[data.Car]{collection: database.Collection("Cars")},
+		Drivers:      &MongoCollection[data.Driver]{collection: database.Collection("Drivers")},
+		Events:       &MongoCollection[data.Event]{collection: database.Collection("Events")},
+		EventResults: &MongoCollection[data.EventResult]{collection: database.Collection("EventResults")},
+		Images:       &MongoCollection[data.Image]{collection: database.Collection("Images")},
+		Tracks:       &MongoCollection[data.Track]{collection: database.Collection("Tracks")},
+		TrackLayouts: &MongoCollection[data.TrackLayout]{collection: database.Collection("TrackLayouts")},
 	}
 }
 
@@ -47,13 +57,13 @@ func (c *MongoCollection[TDocument]) Get(id string) (*TDocument, error) {
 func (c *MongoCollection[TDocument]) List() (*[]TDocument, error) {
 	ctx := context.Background()
 
-	tracksCursor, err := c.collection.Find(ctx, bson.D{})
+	documentCursor, err := c.collection.Find(ctx, bson.D{})
 	if err != nil {
 		return nil, err
 	}
 
 	var documents []TDocument
-	if err := tracksCursor.All(ctx, &documents); err != nil {
+	if err := documentCursor.All(ctx, &documents); err != nil {
 		return nil, err
 	}
 

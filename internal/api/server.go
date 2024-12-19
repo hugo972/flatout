@@ -9,12 +9,12 @@ import (
 )
 
 type Server struct {
-	databaseProvider *database.DatabaseProvider
+	databaseProvider database.IDatabaseProvider
 	fiberApp         *fiber.App
 }
 
 func NewServer(
-	databaseProvider *database.DatabaseProvider,
+	databaseProvider database.IDatabaseProvider,
 	lc fx.Lifecycle) *Server {
 	s := &Server{
 		databaseProvider: databaseProvider,
@@ -24,6 +24,9 @@ func NewServer(
 	lc.Append(
 		fx.Hook{
 			OnStart: func(ctx context.Context) error {
+				s.ConfigureCars()
+				s.ConfigureDrivers()
+				s.ConfigureEvents()
 				s.ConfigureImages()
 				s.ConfigureStaticFiles()
 				s.ConfigureTracks()

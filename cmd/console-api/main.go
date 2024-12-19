@@ -9,7 +9,10 @@ import (
 func main() {
 	fx.
 		New(
-			fx.Provide(database.NewDatabaseProvider),
+			fx.Provide(
+				fx.Annotate(
+					database.NewDatabaseProvider,
+					fx.As(new(database.IDatabaseProvider)))),
 			fx.Provide(api.NewServer),
 			fx.Invoke(func(_ *api.Server) {})).
 		Run()
