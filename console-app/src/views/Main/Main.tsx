@@ -2,7 +2,7 @@ import {Leaderboard} from "../Leaderboard";
 import {BrowserRouter, Route, Routes} from "react-router";
 import {Stack} from "@mui/material";
 import React from "react";
-import {Dashboard, Login} from "..";
+import {Dashboard, Drivers, Login} from "..";
 import {Topbar} from "./components";
 
 export function Main() {
@@ -14,6 +14,9 @@ export function Main() {
                     <Route
                         element={<Dashboard/>}
                         path="/"/>
+                    <Route
+                        element={<Drivers/>}
+                        path="/drivers/:driverId?"/>
                     <Route
                         element={<Leaderboard/>}
                         path="/leaderboard/:eventId?"/>

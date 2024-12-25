@@ -1,20 +1,22 @@
 package api
 
 import (
+	"flatout/internal/data"
 	"github.com/gofiber/fiber/v2"
+	"github.com/samber/lo"
 )
 
 func (s *Server) ConfigureCars() {
 	s.fiberApp.
 		Get(
-			"/api/cars/getCar/:carId",
-			s.handleGetCar).
+			"/api/cars/getCarModel/:carId",
+			s.handleGetCarModel).
 		Get(
-			"/api/cars/getCars",
-			s.handleGetCars)
+			"/api/cars/getCarModels",
+			s.handleGetCarModels)
 }
 
-func (s *Server) handleGetCar(c *fiber.Ctx) error {
+func (s *Server) handleGetCarModel(c *fiber.Ctx) error {
 	mongoDatabase := s.databaseProvider.GetMongoDatabase()
 
 	carId := c.Params("carId")
@@ -24,10 +26,10 @@ func (s *Server) handleGetCar(c *fiber.Ctx) error {
 		return err
 	}
 
-	return c.JSON(car)
+	return c.JSON(&data.CarModel{Car: *car})
 }
 
-func (s *Server) handleGetCars(c *fiber.Ctx) error {
+func (s *Server) handleGetCarModels(c *fiber.Ctx) error {
 	mongoDatabase := s.databaseProvider.GetMongoDatabase()
 
 	cars, err := mongoDatabase.Cars.List()
@@ -35,5 +37,10 @@ func (s *Server) handleGetCars(c *fiber.Ctx) error {
 		return err
 	}
 
-	return c.JSON(cars)
+	return c.JSON(
+		lo.Map(
+			*cars,
+			func(car data.Car, _ int) data.CarModel {
+				return data.CarModel{Car: car}
+			}))
 }

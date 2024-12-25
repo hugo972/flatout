@@ -30,7 +30,7 @@ export function Topbar() {
                 spacing={5}>
                 <img
                     alt="logo"
-                    src="logo.png"/>
+                    src="/logo.png"/>
                 <Stack
                     alignItems="baseline"
                     direction="row"
@@ -41,6 +41,9 @@ export function Topbar() {
                     <NavigationItem
                         title="Leaderboard"
                         url="/leaderboard"/>
+                    <NavigationItem
+                        title="Drivers"
+                        url="/drivers"/>
                 </Stack>
             </Stack>
             <Stack

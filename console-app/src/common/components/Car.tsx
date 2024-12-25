@@ -7,13 +7,13 @@ type CarProps = {
 };
 
 export function Car({id}: CarProps) {
-    const {data: car} =
+    const {data: carModel} =
         useSuspenseQuery({
             queryKey: ["Car", id],
-            queryFn: () => Api.getCar(id),
+            queryFn: () => Api.getCarModel(id),
         });
     return (
         <Typography>
-            {car.title} [{car.tires.brand} - {car.tires.size}]
+            {carModel.title} [{carModel.tires.brand} - {carModel.tires.size}]
         </Typography>);
 }

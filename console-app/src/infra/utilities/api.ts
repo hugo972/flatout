@@ -1,12 +1,12 @@
 import {Types} from "../../common";
 
 export class Api {
-    public static getCar(id: string) {
-        return Api.executeGet<Types.Car>(`/api/cars/getCar/${id}`);
+    public static getCarModel(id: string) {
+        return Api.executeGet<Types.CarModel>(`/api/cars/getCarModel/${id}`);
     }
 
-    public static getDriver(id: string) {
-        return Api.executeGet<Types.Driver>(`/api/drivers/getDriver/${id}`);
+    public static getDriverModel(id: string) {
+        return Api.executeGet<Types.DriverModel>(`/api/drivers/getDriverModel/${id}`);
     }
 
     public static getEventModels() {

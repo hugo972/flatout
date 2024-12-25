@@ -7,14 +7,14 @@ type DriverProps = {
 };
 
 export function Driver({id}: DriverProps) {
-    const {data: driver} =
+    const {data: driverModel} =
         useSuspenseQuery({
             queryKey: ["Driver", id],
-            queryFn: () => Api.getDriver(id),
+            queryFn: () => Api.getDriverModel(id),
         });
 
     return (
         <Typography>
-            {driver.name}
+            {driverModel.name}
         </Typography>);
 }

@@ -1,20 +1,22 @@
 package api
 
 import (
+	"flatout/internal/data"
 	"github.com/gofiber/fiber/v2"
+	"github.com/samber/lo"
 )
 
 func (s *Server) ConfigureDrivers() {
 	s.fiberApp.
 		Get(
-			"/api/drivers/getDriver/:driverId",
-			s.handleGetDriver).
+			"/api/drivers/getDriverModel/:driverId",
+			s.handleGetDriverModel).
 		Get(
-			"/api/drivers/getDrivers",
-			s.handleGetDrivers)
+			"/api/drivers/getDriverModels",
+			s.handleGetDriverModels)
 }
 
-func (s *Server) handleGetDriver(c *fiber.Ctx) error {
+func (s *Server) handleGetDriverModel(c *fiber.Ctx) error {
 	mongoDatabase := s.databaseProvider.GetMongoDatabase()
 
 	driverId := c.Params("driverId")
@@ -24,10 +26,10 @@ func (s *Server) handleGetDriver(c *fiber.Ctx) error {
 		return err
 	}
 
-	return c.JSON(driver)
+	return c.JSON(&data.DriverModel{Driver: *driver})
 }
 
-func (s *Server) handleGetDrivers(c *fiber.Ctx) error {
+func (s *Server) handleGetDriverModels(c *fiber.Ctx) error {
 	mongoDatabase := s.databaseProvider.GetMongoDatabase()
 
 	drivers, err := mongoDatabase.Drivers.List()
@@ -35,5 +37,10 @@ func (s *Server) handleGetDrivers(c *fiber.Ctx) error {
 		return err
 	}
 
-	return c.JSON(drivers)
+	return c.JSON(
+		lo.Map(
+			*drivers,
+			func(driver data.Driver, _ int) data.DriverModel {
+				return data.DriverModel{Driver: driver}
+			}))
 }

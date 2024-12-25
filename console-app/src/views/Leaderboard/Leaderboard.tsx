@@ -22,9 +22,6 @@ export function Leaderboard() {
     const theme = useTheme();
     return (
         <Stack alignItems="center">
-            <Typography variant="h1">
-                Leaderboard
-            </Typography>
             {_.isNil(eventModel)
                 ? <Stack spacing={3}>
                     {_.map(

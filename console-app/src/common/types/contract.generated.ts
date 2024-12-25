@@ -11,10 +11,6 @@ export interface LoginRequest {
 //////////
 // source: cars.go
 
-export interface CarTire {
-  brand: string;
-  size: string;
-}
 export interface Car {
   driverId: string;
   drivetrain: string;
@@ -25,6 +21,12 @@ export interface Car {
   tires: CarTire;
   title: string;
 }
+export interface CarTire {
+  brand: string;
+  size: string;
+}
+export interface CarModel extends Car {
+}
 
 //////////
 // source: drivers.go
@@ -32,6 +34,8 @@ export interface Car {
 export interface Driver {
   id: string;
   name: string;
+}
+export interface DriverModel extends Driver {
 }
 
 //////////
