@@ -4,14 +4,14 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func (m *Server) ConfigureTracks() {
-	m.fiberApp.Get(
+func (s *Server) ConfigureTracks() {
+	s.fiberApp.Get(
 		"/api/tracks/getTracks",
-		m.handleGetTracks)
+		s.handleGetTracks)
 }
 
-func (m *Server) handleGetTracks(c *fiber.Ctx) error {
-	mongoDatabase := m.databaseProvider.GetMongoDatabase()
+func (s *Server) handleGetTracks(c *fiber.Ctx) error {
+	mongoDatabase := s.databaseProvider.GetMongoDatabase()
 
 	tracks, err := mongoDatabase.Tracks.List()
 	if err != nil {

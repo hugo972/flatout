@@ -4,14 +4,14 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func (m *Server) ConfigureImages() {
-	m.fiberApp.Get(
+func (s *Server) ConfigureImages() {
+	s.fiberApp.Get(
 		"/api/images/:imageId",
-		m.handleGetImage)
+		s.handleGetImage)
 }
 
-func (m *Server) handleGetImage(c *fiber.Ctx) error {
-	mongoDatabase := m.databaseProvider.GetMongoDatabase()
+func (s *Server) handleGetImage(c *fiber.Ctx) error {
+	mongoDatabase := s.databaseProvider.GetMongoDatabase()
 
 	imageId := c.Params("imageId")
 

@@ -17,6 +17,7 @@ type MongoDatabase struct {
 	Images       *MongoCollection[data.Image]
 	Tracks       *MongoCollection[data.Track]
 	TrackLayouts *MongoCollection[data.TrackLayout]
+	Users        *MongoCollection[data.User]
 }
 
 type MongoCollection[TDocument interface{}] struct {
@@ -39,6 +40,7 @@ func NewMongoDatabase() *MongoDatabase {
 		Images:       &MongoCollection[data.Image]{collection: database.Collection("Images")},
 		Tracks:       &MongoCollection[data.Track]{collection: database.Collection("Tracks")},
 		TrackLayouts: &MongoCollection[data.TrackLayout]{collection: database.Collection("TrackLayouts")},
+		Users:        &MongoCollection[data.User]{collection: database.Collection("Users")},
 	}
 }
 

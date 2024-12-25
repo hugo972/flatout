@@ -1,5 +1,5 @@
 package api
 
-func (m *Server) ConfigureStaticFiles() {
-	m.fiberApp.Static("/", "./console-app")
+func (s *Server) ConfigureStaticFiles() {
+	s.fiberApp.Static("/", "./console-app")
 }

@@ -4,18 +4,18 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func (m *Server) ConfigureCars() {
-	m.fiberApp.
+func (s *Server) ConfigureCars() {
+	s.fiberApp.
 		Get(
 			"/api/cars/getCar/:carId",
-			m.handleGetCar).
+			s.handleGetCar).
 		Get(
 			"/api/cars/getCars",
-			m.handleGetCars)
+			s.handleGetCars)
 }
 
-func (m *Server) handleGetCar(c *fiber.Ctx) error {
-	mongoDatabase := m.databaseProvider.GetMongoDatabase()
+func (s *Server) handleGetCar(c *fiber.Ctx) error {
+	mongoDatabase := s.databaseProvider.GetMongoDatabase()
 
 	carId := c.Params("carId")
 
@@ -27,8 +27,8 @@ func (m *Server) handleGetCar(c *fiber.Ctx) error {
 	return c.JSON(car)
 }
 
-func (m *Server) handleGetCars(c *fiber.Ctx) error {
-	mongoDatabase := m.databaseProvider.GetMongoDatabase()
+func (s *Server) handleGetCars(c *fiber.Ctx) error {
+	mongoDatabase := s.databaseProvider.GetMongoDatabase()
 
 	cars, err := mongoDatabase.Cars.List()
 	if err != nil {

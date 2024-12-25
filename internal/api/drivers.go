@@ -4,18 +4,18 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func (m *Server) ConfigureDrivers() {
-	m.fiberApp.
+func (s *Server) ConfigureDrivers() {
+	s.fiberApp.
 		Get(
 			"/api/drivers/getDriver/:driverId",
-			m.handleGetDriver).
+			s.handleGetDriver).
 		Get(
 			"/api/drivers/getDrivers",
-			m.handleGetDrivers)
+			s.handleGetDrivers)
 }
 
-func (m *Server) handleGetDriver(c *fiber.Ctx) error {
-	mongoDatabase := m.databaseProvider.GetMongoDatabase()
+func (s *Server) handleGetDriver(c *fiber.Ctx) error {
+	mongoDatabase := s.databaseProvider.GetMongoDatabase()
 
 	driverId := c.Params("driverId")
 
@@ -27,8 +27,8 @@ func (m *Server) handleGetDriver(c *fiber.Ctx) error {
 	return c.JSON(driver)
 }
 
-func (m *Server) handleGetDrivers(c *fiber.Ctx) error {
-	mongoDatabase := m.databaseProvider.GetMongoDatabase()
+func (s *Server) handleGetDrivers(c *fiber.Ctx) error {
+	mongoDatabase := s.databaseProvider.GetMongoDatabase()
 
 	drivers, err := mongoDatabase.Drivers.List()
 	if err != nil {

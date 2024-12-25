@@ -6,14 +6,14 @@ import (
 	"github.com/samber/lo"
 )
 
-func (m *Server) ConfigureEvents() {
-	m.fiberApp.Get(
+func (s *Server) ConfigureEvents() {
+	s.fiberApp.Get(
 		"/api/events/getEventModels",
-		m.handleGetEventModels)
+		s.handleGetEventModels)
 }
 
-func (m *Server) handleGetEventModels(c *fiber.Ctx) error {
-	mongoDatabase := m.databaseProvider.GetMongoDatabase()
+func (s *Server) handleGetEventModels(c *fiber.Ctx) error {
+	mongoDatabase := s.databaseProvider.GetMongoDatabase()
 
 	events, err := mongoDatabase.Events.List()
 	if err != nil {

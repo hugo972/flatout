@@ -1,17 +1,13 @@
 import _ from "lodash";
 import {useSuspenseQuery} from "@tanstack/react-query";
 import {Stack, Typography, useTheme} from "@mui/material";
-import { Types } from "../common";
+import {Api} from "../infra";
 
 export function Tracks() {
     const {data: tracks} =
         useSuspenseQuery({
             queryKey: ["Main", "getTracks"],
-            queryFn:
-                async () => {
-                    const tracksResponse = await fetch("/api/tracks/getTracks")
-                    return await tracksResponse.json() as Types.Track[]
-                }
+            queryFn: Api.getTracks
         });
 
     const theme = useTheme();

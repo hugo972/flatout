@@ -1,6 +1,6 @@
 import {Typography} from "@mui/material";
 import {useSuspenseQuery} from "@tanstack/react-query";
-import {Types} from "../types";
+import {Api} from "../../infra";
 
 type CarProps = {
     id: string;
@@ -10,11 +10,7 @@ export function Car({id}: CarProps) {
     const {data: car} =
         useSuspenseQuery({
             queryKey: ["Car", id],
-            queryFn:
-                async () => {
-                    const carResponse = await fetch(`/api/cars/getCar/${id}`)
-                    return await carResponse.json() as Types.Car
-                },
+            queryFn: () => Api.getCar(id),
         });
     return (
         <Typography>

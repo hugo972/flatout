@@ -14,8 +14,10 @@ const theme =
         },
         palette: {
             background: {
-                default: "#242424"
+                default: "#2d2d2d",
+                paper: "#242424"
             },
+
             text: {
                 disabled: "#616161",
                 primary: "#E2E2E3",
