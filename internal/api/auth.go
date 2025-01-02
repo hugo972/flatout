@@ -10,7 +10,6 @@ import (
 func (s *Server) ConfigureAuth() {
 	s.fiberApp.Get(
 		"/api/auth/getUserModel",
-		s.authMiddleware,
 		s.handleGetUserModel)
 	s.fiberApp.Post(
 		"/api/auth/login",
@@ -51,13 +50,14 @@ func (s *Server) handleLogin(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusUnauthorized)
 	}
 
+	expirationTime := time.Now().Add(24 * time.Hour)
 	token :=
 		jwt.NewWithClaims(
 			jwt.SigningMethodHS256,
 			jwt.MapClaims{
 				"id":   user.Id,
 				"name": user.Name,
-				"exp":  time.Now().Add(time.Hour * 24).Unix(),
+				"exp":  expirationTime.Unix(),
 			})
 
 	encryptedToken, err := token.SignedString(s.authSigningKey)
@@ -67,8 +67,9 @@ func (s *Server) handleLogin(c *fiber.Ctx) error {
 
 	c.Cookie(
 		&fiber.Cookie{
-			Name:  "Authorization",
-			Value: encryptedToken,
+			Expires: expirationTime,
+			Name:    "Authorization",
+			Value:   encryptedToken,
 		})
 	return c.SendStatus(fiber.StatusOK)
 }

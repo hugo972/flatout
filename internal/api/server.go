@@ -10,10 +10,10 @@ import (
 )
 
 type Server struct {
-	authMiddleware   fiber.Handler
-	authSigningKey   []byte
-	databaseProvider database.IDatabaseProvider
-	fiberApp         *fiber.App
+	authRequiredMiddleware fiber.Handler
+	authSigningKey         []byte
+	databaseProvider       database.IDatabaseProvider
+	fiberApp               *fiber.App
 }
 
 func NewServer(
@@ -24,12 +24,23 @@ func NewServer(
 	jwtMiddleware :=
 		jwtware.New(
 			jwtware.Config{
+				ErrorHandler: func(ctx *fiber.Ctx, err error) error {
+					ctx.Locals("jwtMiddleware:error", err)
+					return ctx.Next()
+				},
 				SigningKey:  authSigningKey,
 				TokenLookup: "cookie:Authorization",
 			})
 
 	s := &Server{
-		authMiddleware:   jwtMiddleware,
+		authRequiredMiddleware: func(ctx *fiber.Ctx) error {
+			err := ctx.Locals("jwtMiddleware:error").(error)
+			if err != nil {
+				return ctx.SendStatus(fiber.StatusUnauthorized)
+			}
+
+			return ctx.Next()
+		},
 		authSigningKey:   authSigningKey,
 		databaseProvider: databaseProvider,
 		fiberApp:         fiber.New(),
@@ -38,6 +49,8 @@ func NewServer(
 	lc.Append(
 		fx.Hook{
 			OnStart: func(ctx context.Context) error {
+				s.fiberApp.Use(jwtMiddleware)
+
 				s.ConfigureAdmin()
 				s.ConfigureAuth()
 				s.ConfigureCars()

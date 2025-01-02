@@ -7,7 +7,7 @@ import (
 func (s *Server) ConfigureAdmin() {
 	s.fiberApp.Get(
 		"/api/admin",
-		s.authMiddleware,
+		s.authRequiredMiddleware,
 		s.handleAdmin)
 }
 

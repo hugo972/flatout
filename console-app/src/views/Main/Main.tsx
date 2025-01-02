@@ -8,7 +8,7 @@ import {Topbar} from "./components";
 export function Main() {
     return (
         <BrowserRouter>
-            <Stack>
+            <Stack spacing={5}>
                 <Topbar/>
                 <Routes>
                     <Route

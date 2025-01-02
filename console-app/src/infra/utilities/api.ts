@@ -5,8 +5,16 @@ export class Api {
         return Api.executeGet<Types.CarModel>(`/api/cars/getCarModel/${id}`);
     }
 
+    public static getCarModels() {
+        return Api.executeGet<Types.CarModel[]>("/api/cars/getCarModels");
+    }
+
     public static getDriverModel(id: string) {
         return Api.executeGet<Types.DriverModel>(`/api/drivers/getDriverModel/${id}`);
+    }
+
+    public static getDriverModels() {
+        return Api.executeGet<Types.DriverModel[]>("/api/drivers/getDriverModels");
     }
 
     public static getEventModels() {

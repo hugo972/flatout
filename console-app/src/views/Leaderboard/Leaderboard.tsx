@@ -1,4 +1,4 @@
-import {Box, Stack, Typography, useTheme} from "@mui/material";
+import {Box, Stack, useTheme} from "@mui/material";
 import {useSuspenseQuery} from "@tanstack/react-query";
 import _ from "lodash";
 import React from "react";

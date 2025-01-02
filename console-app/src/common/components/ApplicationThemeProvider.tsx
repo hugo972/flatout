@@ -12,12 +12,30 @@ const theme =
                 xs: 0
             }
         },
+        components: {
+            MuiDivider: {
+                styleOverrides: {
+                    root: {
+                        backgroundColor: "#E2E2E3"
+                    }
+                }
+            },
+            MuiTooltip: {
+                styleOverrides: {
+                    tooltip: {
+                        backgroundColor: "#2d2d2d",
+                        borderRadius: 8,
+                        boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.3)",
+                        padding: 16
+                    }
+                }
+            }
+        },
         palette: {
             background: {
                 default: "#2d2d2d",
                 paper: "#242424"
             },
-
             text: {
                 disabled: "#616161",
                 primary: "#E2E2E3",
