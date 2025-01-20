@@ -3,10 +3,11 @@ package api
 import (
 	"context"
 	"flatout/internal/database"
+	"log"
+
 	"github.com/gofiber/fiber/v2"
 	jwtware "github.com/gofiber/jwt/v3"
 	"go.uber.org/fx"
-	"log"
 )
 
 type Server struct {
@@ -32,19 +33,29 @@ func NewServer(
 				TokenLookup: "cookie:Authorization",
 			})
 
-	s := &Server{
-		authRequiredMiddleware: func(ctx *fiber.Ctx) error {
-			err := ctx.Locals("jwtMiddleware:error").(error)
-			if err != nil {
-				return ctx.SendStatus(fiber.StatusUnauthorized)
-			}
+	fiberApp :=
+		fiber.New(
+			fiber.Config{
+				ErrorHandler: func(ctx *fiber.Ctx, err error) error {
+					log.Printf("[%s %s] %s", ctx.Method(), ctx.Path(), err.Error())
+					return fiber.DefaultErrorHandler(ctx, err)
+				},
+			})
 
-			return ctx.Next()
-		},
-		authSigningKey:   authSigningKey,
-		databaseProvider: databaseProvider,
-		fiberApp:         fiber.New(),
-	}
+	s :=
+		&Server{
+			authRequiredMiddleware: func(ctx *fiber.Ctx) error {
+				err := ctx.Locals("jwtMiddleware:error").(error)
+				if err != nil {
+					return ctx.SendStatus(fiber.StatusUnauthorized)
+				}
+
+				return ctx.Next()
+			},
+			authSigningKey:   authSigningKey,
+			databaseProvider: databaseProvider,
+			fiberApp:         fiberApp,
+		}
 
 	lc.Append(
 		fx.Hook{

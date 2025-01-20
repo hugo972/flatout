@@ -6,3 +6,4 @@ _ReSharper.Caches/
 node_modules/
 
 /bin
+__debug_bin*

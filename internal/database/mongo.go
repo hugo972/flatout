@@ -3,6 +3,7 @@ package database
 import (
 	"context"
 	"flatout/internal/data"
+
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -25,7 +26,7 @@ type MongoCollection[TDocument interface{}] struct {
 }
 
 func NewMongoDatabase() *MongoDatabase {
-	client, err := mongo.Connect(options.Client().ApplyURI("mongodb://localhost:27017"))
+	client, err := mongo.Connect(options.Client().ApplyURI("mongodb://admin:admin@localhost:27017/admin"))
 	if err != nil {
 		return nil
 	}
